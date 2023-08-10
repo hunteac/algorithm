@@ -14,8 +14,6 @@ class Solution {
                     board[i][j] = s.charAt(j) + "";
                 }
             }
-            int[] dr2 = { -1, -1, 1, 1 }; // 대각선 위치 확인을 위한 delta 배열 선언 및 초기화
-            int[] dc2 = { -1, 1, -1, 1 }; // 대각선 위치 확인을 위한 delta 배열 선언 및 초기화
             int answer = 0;
             int cnt = 0;
             // 행 우선순회
@@ -23,86 +21,75 @@ class Solution {
                 for (int j = 0; j < n; j++) {
                     if (board[i][j].equals("o")) {
                         cnt++;
+                        // 행 체크
                         for (int k = 1; k < 5; k++) {
                             if (j + k < n && board[i][j + k].equals("o")) {
                                 cnt++;
                                 if (cnt == 5)
                                     answer = 1;
-                            } else
-                                break;
+                            } else {
+                            	cnt = 0;
+                            	break;
+                            }
                         }
-                    }
-                    cnt = 0;
-                }
-            }
-            cnt = 0;
-            // 열 우선순회
-            for (int j = 0; j < n; j++) {
-                for (int i = 0; i < n; i++) {
-                    if (board[i][j].equals("o")) {
-                        cnt++;
+                        // 열 체크
+                        cnt = 1;
                         for (int k = 1; k < 5; k++) {
                             if (i + k < n && board[i + k][j].equals("o")) {
                                 cnt++;
                                 if (cnt == 5)
                                     answer = 1;
-                            } else
-                                break;
+                            } else {
+                            	cnt = 0;
+                            	break;
+                            }
                         }
-                    }
-                    cnt = 0;
-                }
-            }
-            cnt = 0;
-            // 대각선 왼쪽 위 오른쪽 아래 찾기
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (board[i][j].equals("o")) {
-                        cnt++;
+                        // 왼쪽 위, 오른쪽 아래 대각선 확인
+                        cnt = 1;
                         for (int k = 1; k < 5; k++) {
                             if (i - k >= 0 && j - k >= 0) {
                                 if (board[i - k][j - k].equals("o")) {
                                 	cnt++;
                                 	if (cnt == 5)
                                 		answer = 1;
-                                } else 
+                                } else {
+                                	cnt = 0;
                                 	break;
+                                }
                             }
                             if (i + k < n && j + k < n) {
                                 if (board[i + k][j + k].equals("o")) {
                                 	cnt++;
                                 	if (cnt == 5)
                                 		answer = 1;
-                                } else 
+                                } else {
+                                	cnt = 0;
                                 	break;
+                                }
                             }
                         }
-                    }
-                    cnt = 0;
-                }
-            }
-            cnt = 0;
-            // 대각선 오른쪽 위 왼쪽 아래 찾기
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (board[i][j].equals("o")) {
-                        cnt++;
+                        // 오른쪽 위, 왼쪽 아래 대각선 확인
+                        cnt = 1;
                         for (int k = 1; k < 5; k++) {
                             if (i - k >= 0 && j + k < n) {
                                 if (board[i - k][j + k].equals("o")) {
                                 	cnt++;
                                 	if (cnt == 5)
                                 		answer = 1;
-                                } else 
+                                } else {
+                                	cnt = 0;
                                 	break;
+                                }
                             }
                             if (j - k >= 0 && i + k < n) {
                                 if (board[i + k][j - k].equals("o")) {
                                 	cnt++;
                                 	if (cnt == 5)
                                 		answer = 1;
-                                } else 
+                                } else {
+                                	cnt = 0;
                                 	break;
+                                }
                             }
                         }
                     }
