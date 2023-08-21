@@ -1,41 +1,33 @@
 import java.util.Scanner;
 
 class Solution {
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
 		int T = sc.nextInt();
-
 		for (int test_case = 1; test_case <= T; test_case++) {
-			int n = sc.nextInt();
-			int[] arr = new int[n];
-			for (int i = 0; i < n; i++) {
-				arr[i] = sc.nextInt();
+			// 숫자열 길이 입력
+			int N = sc.nextInt();
+			// 숫자들을 담을 배열 선언
+			int[] nums = new int[N];
+			// 배열에 숫자 담기
+			for (int i = 0; i < N; i++) {
+				nums[i] = sc.nextInt();
 			}
-			// 선택정렬 메소드 사용
-			selectionSort(arr);
-
+			// 삽입 정렬 사용
+			for (int i = 1; i < N; i++) {
+				int key = nums[i];
+				int j;
+				for (j = i - 1; j >= 0 && key < nums[j]; j--) {
+					nums[j + 1] = nums[j];
+				}
+				nums[j + 1] = key;
+			}
 			System.out.print("#" + test_case + " ");
-			for (int i = 0; i < arr.length; i++) {
-				System.out.printf("%d ", arr[i]);
+			// for each를 통한 배열 출력
+			for (int i : nums) {
+				System.out.print(i + " ");
 			}
 			System.out.println();
-		}
-		sc.close();
-	}
-
-	// 선택 정렬 기능을 가진 selectionSort 메소드 구현
-	public static void selectionSort(int[] arr) {
-		int minIdx = 0;
-		for (int i = 0; i < arr.length - 1; i++) {
-			minIdx = i;
-			for (int j = i + 1; j < arr.length; j++) {
-				if (arr[minIdx] > arr[j]) {
-					minIdx = j;
-				}
-			}
-			int temp = arr[i];
-			arr[i] = arr[minIdx];
-			arr[minIdx] = temp;
-		}
-	}
-}
+		} 
+	}	
+}	
