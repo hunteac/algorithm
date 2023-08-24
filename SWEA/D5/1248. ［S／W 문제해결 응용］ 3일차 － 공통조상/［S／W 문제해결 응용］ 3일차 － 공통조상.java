@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -19,7 +18,7 @@ class Solution {
     public static LinkedList<Integer> Alist = new LinkedList<>();
     public static LinkedList<Integer> Blist = new LinkedList<>();
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         // 테스트 케이스 수 입력
         int T = sc.nextInt();
