@@ -1,58 +1,53 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 class Solution {
-	public static void main(String args[]) throws Exception {
-		Scanner sc = new Scanner(System.in);
-		int T = sc.nextInt();
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int T = Integer.parseInt(br.readLine());
 		for (int test_case = 1; test_case <= T; test_case++) {
-			int[][] pz = new int[9][9];
-
+			// 스도쿠 퍼즐 생성
+			int[][] puz = new int[9][9];
+			// 퍼즐에 숫자 넣기
 			for (int i = 0; i < 9; i++) {
+				st = new StringTokenizer(br.readLine());
 				for (int j = 0; j < 9; j++) {
-					pz[i][j] = sc.nextInt();
+					puz[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-			// 퍼즐을 9칸으로 나누어 각 칸의 중앙값과 다른 값들을 비교하기 위한
-			// dr, dc(상하좌우) / dr2, dc2(대각선) 배열 선언
-			int[] dr = { -1, 1, 0, 0 };
-			int[] dc = { 0, 0, -1, 1 };
-			int[] dr2 = { -1, -1, 1, 1 };
-			int[] dc2 = { -1, 1, -1, 1 };
-			// 중복 횟수를 구하는 변수 선언 및 초기화
-			int cnt = 0;
-			for (int i = 0; i < 9; i += 3) {
-				for (int j = 0; j < 9; j += 3) {
-					for (int k = 0; k < 4; k++) {
-						if (pz[i + 1][j + 1] == pz[i + 1 + dr[k]][j + 1 + dc[k]])
-							cnt++;
-						if (pz[i + 1][j + 1] == pz[i + 1 + dr2[k]][j + 1 + dc2[k]])
-							cnt++;
-					}
-				}
-			}
-			// 열에서 중복된 숫자를 확인하기 위한 반복문
+			// 행렬 탐색을 위한 delta 배열 선언 및 초기화
+			int[] dr = { -1, -1, 0, 1, 1, 1, 0, -1 };
+			int[] dc = { 0, 1, 1, 1, 0, -1, -1, -1 };
+			// 기본 출력값 = 1
+			int answer = 1;
+			// 퍼즐 행렬 탐색
 			for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 					for (int k = j + 1; k < 9; k++) {
-						if (pz[i][j] == pz[i][k])
-							cnt++;
+						// 행에 중복된 숫자가 존재하면 0
+						if (puz[i][j] == puz[i][k])
+							answer = 0;
+						// 열에 중복된 숫자가 존재하면 0
+						if (puz[j][i] == puz[k][i])
+							answer = 0;
 					}
 				}
 			}
-			// 행에서 중복된 숫자를 확인하기 위한 반복문
-			for (int j = 0; j < 9; j++) {
-				for (int i = 0; i < 9; i++) {
-					for (int k = i + 1; k < 9; k++) {
-						if (pz[i][j] == pz[k][j])
-							cnt++;
+			// delta 배열을 이용한 작은 격자 탐색
+			for (int i = 1; i < 9; i += 3) {
+				for (int j = 1; j < 9; j += 3) {
+					for (int d = 0; d < 8; d++) {
+						if (puz[i][j] == puz[i + dr[d]][j + dc[d]])
+							answer = 0;
 					}
 				}
 			}
-			if (cnt == 0) // 중복 횟수가 0이면
-				System.out.printf("#%d %d\n", test_case, 1);
-			else
-				System.out.printf("#%d %d\n", test_case, 0);
+			System.out.println("#" + test_case + " " + answer);
 		}
-		sc.close();
+		
 	}
 }
