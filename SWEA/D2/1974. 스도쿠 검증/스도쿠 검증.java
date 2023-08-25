@@ -25,29 +25,34 @@ class Solution {
 			// 기본 출력값 = 1
 			int answer = 1;
 			// 퍼즐 행렬 탐색
-			for (int i = 0; i < 9; i++) {
+			Out: for (int i = 0; i < 9; i++) {
 				for (int j = 0; j < 9; j++) {
 					for (int k = j + 1; k < 9; k++) {
 						// 행에 중복된 숫자가 존재하면 0
-						if (puz[i][j] == puz[i][k])
+						if (puz[i][j] == puz[i][k]) {
 							answer = 0;
+							break Out;
+						}
 						// 열에 중복된 숫자가 존재하면 0
-						if (puz[j][i] == puz[k][i])
+						if (puz[j][i] == puz[k][i]) {
 							answer = 0;
+							break Out;
+						}
 					}
 				}
 			}
 			// delta 배열을 이용한 작은 격자 탐색
-			for (int i = 1; i < 9; i += 3) {
+			Out: for (int i = 1; i < 9; i += 3) {
 				for (int j = 1; j < 9; j += 3) {
 					for (int d = 0; d < 8; d++) {
-						if (puz[i][j] == puz[i + dr[d]][j + dc[d]])
+						if (puz[i][j] == puz[i + dr[d]][j + dc[d]]) {
 							answer = 0;
+							break Out;
+						}
 					}
 				}
 			}
 			System.out.println("#" + test_case + " " + answer);
 		}
-		
 	}
 }
