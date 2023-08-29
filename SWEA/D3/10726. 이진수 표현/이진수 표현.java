@@ -13,8 +13,6 @@ public class Solution {
             for (int i = 0; i < N; i++) {
                 bit[cnt++] = M % 2; // N길이의 비트 담기
                 M /= 2;
-            }
-            for (int i = 0; i < N; i++) {
                 if (bit[i] == 0) { // 비트가 꺼져있다면
                     answer = "OFF"; // 출력값 = OFF
                     break; // 반복문 탈출
