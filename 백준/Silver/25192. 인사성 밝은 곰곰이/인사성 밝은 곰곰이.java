@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        HashSet<String> record = new HashSet<>(); // 채팅 기록 담기용 덱
+        HashSet<String> record = new HashSet<>(); // 채팅 기록 담기용 셋
         int cnt = 0;
         for (int i = 0; i < N; i++) {
             String chat = br.readLine();
