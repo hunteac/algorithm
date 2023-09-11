@@ -5,15 +5,18 @@ import java.util.List;
 class Solution {
     public int[] solution(int n) {
         List<Integer> list = new ArrayList<>();
-        int cnt = 0;
+        boolean[] flag = new boolean[n + 1];
+        int[] arr = new int[n + 1];
+        for (int i = 2; i < arr.length; i++) {
+            flag[i] = true;
+            arr[i] = i;
+        }
         for (int i = 2; i <= n; i++) {
-            cnt = 0;
-            if (n % i == 0) {
-                for (int j = 1; j <= i; j++) { // 소수 찾기
-                    if (i % j == 0) cnt++;
-                }
-                if (cnt == 2) list.add(i);
-            }    
+            if (flag[i] && n % i == 0) list.add(i);
+            else continue;
+            for (int j = i * i; j <= n; j += i) { // 에라토스테네스의 체 활용
+                flag[j] = false;   
+            }
         }
         return list.stream().mapToInt(i -> i).toArray(); // 리스트 -> 배열 변환
     }
