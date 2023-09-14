@@ -3,24 +3,13 @@ import java.util.*;
 class Solution {
     public String[] solution(int n, int[] arr1, int[] arr2) {
         String[] answer = new String[n];
-        Long[] sarr1 = new Long[n];
-        Long[] sarr2 = new Long[n];
         for (int i = 0; i < n; i++) {
-            sarr1[i] = Long.parseLong(Long.toBinaryString(arr1[i])); // 10진법 -> 2진법
-            sarr2[i] = Long.parseLong(Long.toBinaryString(arr2[i])); // 10진법 -> 2진법
-            sarr1[i] += sarr2[i]; // 각 원소 더하기
+            answer[i] = Integer.toBinaryString(arr1[i] | arr2[i]); // 비트연산자를 사용한 후 이진법을 문자열로 변환
         }
-        for (int i = 0; i < n; i++) { // 전체 지도 만들기
-            String tmp = "";
-            String s = String.valueOf(sarr1[i]);
-            for (int j = 0; j < n - s.length(); j++) {
-                tmp += " ";
-            }
-            for (int j = 0; j < s.length(); j++) {
-                if (s.charAt(j) != '0') tmp += "#"; // 0이 아닌 곳은 "#"
-                else if (s.charAt(j) == '0') tmp += " "; // 0인 곳은 공백
-            }
-            answer[i] = tmp;
+        for (int i = 0; i < n; i++) {
+            answer[i] = String.format("%" + n + "s", answer[i]); // 공백 채우기
+            answer[i] = answer[i].replace("1", "#"); // 1은 "#"
+            answer[i] = answer[i].replace("0", " "); // 0은 공백
         }
         return answer;
     }
