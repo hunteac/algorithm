@@ -24,7 +24,7 @@ public class Solution {
             System.out.println("#" + tc + " " + answer);
         }
     }
-    // DFS로 삼각형 개수 구하는 메소드
+    // DFS로 삼각형 개수 구하기
     public static void getTriangle(int startNode, int node, int len) {
         if (len == 3) {
             if (adjArr[node][startNode] == 1) {
