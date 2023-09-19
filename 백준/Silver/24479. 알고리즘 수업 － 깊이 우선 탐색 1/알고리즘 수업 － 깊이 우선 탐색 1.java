@@ -1,19 +1,23 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
     public static ArrayList<Integer>[] graph; // 인접 리스트
-    public static int[] order; // 방문 순서
+    public static int[] order; // 방문 순서 배열
     public static boolean[] visited; // 방문 확인
     public static int N; // 정점 수
     public static int M; // 간선 수
-    public static int cnt = 1;
+    public static int cnt = 1; // 방문 순서
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
-        N = sc.nextInt();
-        M = sc.nextInt();
-        int R = sc.nextInt(); // 시작 정점
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        int R = Integer.parseInt(st.nextToken()); // 시작 정점
         graph = new ArrayList[N + 1];
         order = new int[N + 1];
         visited = new boolean[N + 1];
@@ -21,8 +25,9 @@ public class Main {
             graph[i] = new ArrayList<>();
         }
         for (int i = 0; i < M; i++) {
-            int A = sc.nextInt();
-            int B = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
             graph[A].add(B);
             graph[B].add(A);
         }
