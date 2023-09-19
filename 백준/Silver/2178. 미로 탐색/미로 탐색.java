@@ -38,10 +38,12 @@ public class Main {
                 break;
             }
             for (int d = 0; d < 4; d++) {
-                if (x + dc[d] >= 0 && y + dr[d] >= 0 && x + dc[d] < M && y + dr[d] < N) {
-                    if (!maze[y + dr[d]][x + dc[d]] || visited[y + dr[d]][x + dc[d]]) continue; // 갈 수 없거나 이미 방문했으면 continue
-                    visited[y + dr[d]][x + dc[d]] = true; // 방문 체크
-                    queue.add(new Node(y + dr[d], x + dc[d], dist + 1));
+                int r = y + dr[d];
+                int c = x + dc[d];
+                if (r >= 0 && c >= 0 && r < N && c < M) {
+                    if (!maze[r][c] || visited[r][c]) continue; // 갈 수 없거나 이미 방문했으면 continue
+                    visited[r][c] = true; // 방문 체크
+                    queue.add(new Node(r, c, dist + 1));
                 }
             }
         }
@@ -60,7 +62,7 @@ public class Main {
                 if (s.charAt(j) == '1') maze[i][j] = true;
             }
         }
-        BFS(0 ,0, 0);
+        BFS(0, 0, 0);
         System.out.println(min);
     }
 }
