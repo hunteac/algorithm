@@ -23,16 +23,9 @@ public class Main {
         Collections.sort(words, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                // 등장 횟수 정렬
-                if (Integer.compare(hMap.get(o1), hMap.get(o2)) != 0) {
-                    return Integer.compare(hMap.get(o2), hMap.get(o1));
-                }
-                // 길이 순 역정렬
-                if (o1.length() != o2.length()) {
-                    return o2.length() - o1.length();
-                }
-                // 등장 횟수와 길이가 같으면 사전 순 정렬
-                return o1.compareTo(o2);
+                if (hMap.get(o1) != hMap.get(o2)) return hMap.get(o2) - hMap.get(o1); // 등장 횟수 정렬 
+                if (o1.length() != o2.length()) return o2.length() - o1.length(); // 길이 순 정렬
+                return o1.compareTo(o2); // 사전 순 정렬
             }
         });
         for (String s : words) {
