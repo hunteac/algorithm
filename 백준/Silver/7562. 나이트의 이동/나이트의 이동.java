@@ -14,7 +14,7 @@ public class Main {
         }
     }
 
-    static Queue<Night> queue = new LinkedList<>();
+    static Queue<Night> queue;
     static int[] dr = { 2, 1, -1, -2, -2, -1, 1, 2 };
     static int[] dc = { 1, 2, 2, 1, -1, -2, -2, -1 };
     static boolean[][] visited; // 방문 체크
@@ -33,7 +33,6 @@ public class Main {
             int cy = night.y;
             int count = night.cnt;
             if (cx == tx && cy == ty)  {
-                queue.clear();
                 return count; // 최소 이동 횟수 반환
             }
 
@@ -53,6 +52,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
         for (int tc = 1; tc <= T; tc++) {
+            queue = new LinkedList<>();
             N = sc.nextInt();
             int x = sc.nextInt(); // 시작 x좌표
             int y = sc.nextInt(); // 시작 y좌표
