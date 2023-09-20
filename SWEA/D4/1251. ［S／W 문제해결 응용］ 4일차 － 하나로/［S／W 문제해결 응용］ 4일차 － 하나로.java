@@ -1,6 +1,9 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Solution {
     static class Island { // 섬 객체 구현 클래스
@@ -13,25 +16,27 @@ public class Solution {
     }
     static int[] p; // 각 섬이 속한 집합의 대표섬
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int T = Integer.parseInt(br.readLine());
         for (int tc = 1; tc <= T; tc++) {
-            int N = sc.nextInt(); // 섬의 수
+            int N = Integer.parseInt(br.readLine()); // 섬의 수
             Island[] ilands = new Island[N + 1]; // 섬 배열
             double[][] edges = new double[N * (N - 1) / 2][3];
             p = new int[N + 1];
 
+            st = new StringTokenizer(br.readLine());
             for (int i = 1; i < N + 1; i++) {
-                int x = sc.nextInt();
+                int x = Integer.parseInt(st.nextToken());
                 ilands[i] = new Island(x, 0);
             }
-
+            st = new StringTokenizer(br.readLine());
             for (int i = 1; i < N + 1; i++) {
-                ilands[i].y = sc.nextInt();
+                ilands[i].y = Integer.parseInt(st.nextToken());
             }
 
-            double E = sc.nextDouble(); // 환경 부담 세율
+            double E = Double.parseDouble(br.readLine()); // 환경 부담 세율
 
             int node = 1;
             int edge = node + 1;
@@ -49,7 +54,6 @@ public class Solution {
                     edge = node + 1;
                 }
             }
-
 
             for (int i = 1; i < N + 1; i++) {
                 p[i] = i;
