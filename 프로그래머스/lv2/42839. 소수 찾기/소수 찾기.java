@@ -15,7 +15,7 @@ class Solution {
         
         permutation("", 0);
         
-        return set.size();
+        return set.size(); // set의 크기는 중복 순열로 만들 수 있는 모든 소수의 개수
     }
 
     // 완전 탐색 메소드
@@ -25,13 +25,13 @@ class Solution {
             int num = Integer.parseInt(s);
             if (isPrime(num)) set.add(num);
         }
-        if (idx == paper.length) return; // 범위를 벗어나면 return
+        if (idx == paper.length) return; // 범위를 벗어나면 return 
         
         for (int i = 0; i < paper.length; i++) {
             if (visited[i]) continue;
-                visited[i] = true; // 방문 체크
+                visited[i] = true; // 선택 O
                 permutation(s + paper[i], idx + 1); // 문자열 더하고 재귀
-                visited[i] = false; // 백트래킹
+                visited[i] = false; // 선택 X (백트래킹)
         }
     }
     
