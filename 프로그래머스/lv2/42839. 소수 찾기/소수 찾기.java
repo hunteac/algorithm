@@ -1,61 +1,46 @@
-import java.util.stream.*;
 import java.util.*;
 
 class Solution {
-    static HashSet<String> set; // 중복 제거
+    static HashSet<Integer> set = new HashSet<>(); // 중복 제거
     static boolean[] visited; // 방문 체크
-    static boolean[] chk; // 소수 판별, false: 소수
-    static String[] paper; // 종이 각 모음
-    static String number;
-    static int answer;
-    static int len;
-    
-    static void bTrack(int idx) {
-        String tmp = "";
-        // 완전탐색
-        for (int i = 0; i < len; i++) {
-            if (!visited[i] || tmp.equals("") && paper[i].equals("0")) continue; // 11과 011은 같은 숫자
-            tmp += paper[i];
-        }
-        if (!tmp.equals("")) set.add(tmp); // 중복 판별
-        if (idx == len) return;
+    static char[] paper; // 종이 조각
         
-        // 재귀
-        for (int i = 0; i < len; i++) {
+    public int solution(String numbers) {
+        visited = new boolean[numbers.length()];
+        paper = new char[numbers.length()];
+        
+        for (int i = 0; i < numbers.length(); i++) {
+            paper[i] = numbers.charAt(i);
+        }
+        
+        permutation("", 0);
+        
+        return set.size();
+    }
+
+    // 완전 탐색 메소드
+    static void permutation(String s, int idx) {
+        // 문자열이 공백이 아니라면 정수로 형변환 하고 소수 판별 후 set에 담기
+        if (!s.equals("")) {
+            int num = Integer.parseInt(s);
+            if (isPrime(num)) set.add(num);
+        }
+        if (idx == paper.length) return; // 범위를 벗어나면 return
+        
+        for (int i = 0; i < paper.length; i++) {
             if (visited[i]) continue;
-            visited[i] = true;
-            paper[idx] = String.valueOf(number.charAt(i));
-            bTrack(idx + 1);
-            paper[idx] = "";
-            bTrack(idx + 1);
-            visited[i] = false;
+                visited[i] = true; // 방문 체크
+                permutation(s + paper[i], idx + 1); // 문자열 더하고 재귀
+                visited[i] = false; // 백트래킹
         }
     }
     
-    public int solution(String numbers) {
-        answer = 0;
-        len = numbers.length();
-        set = new HashSet<>();
-        chk = new boolean[(int) Math.pow(10, len)];
-        visited = new boolean[len];
-        paper = new String[len];
-        number = numbers;
-        
-        // 에라토스테네스의 체
-        chk[0] = chk[1] = true;
-        for (int i = 2; i < chk.length; i++) {
-            if (chk[i]) continue; 
-            for (int j = i * 2; j < chk.length; j += i) {
-                chk[j] = true;
-            }
+    // 소수 판별 메소드
+    static boolean isPrime(int num) {
+        if (num == 0 || num == 1) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
         }
-        
-        bTrack(0);
-        
-        for (String s : set) {
-            if (!chk[Integer.parseInt(s)]) answer++;
-        }
-        
-        return answer;
+        return true;
     }
 }
