@@ -54,14 +54,8 @@ public class Solution {
                 int v = queue.poll();
 
                 for (int i = 0; i < edges[v].size(); i++) {
-                    degree[edges[v].get(i)]--; // v 정점과 인접한 정점들의 진입차수 - 1
-                }
-
-                for (int i = 1; i < V + 1; i++) {
-                    if (degree[i] == 0) {
-                        degree[i] = -1;
-                        queue.add(i); // 진입차수가 0이면 큐에 넣기
-                    }
+                    if (--degree[edges[v].get(i)] == 0) // v 정점과 인접한 정점들의 진입차수 - 1
+                        queue.add(edges[v].get(i));
                 }
 
                 sb.append(v).append(" "); // 작업 순서대로 출력
