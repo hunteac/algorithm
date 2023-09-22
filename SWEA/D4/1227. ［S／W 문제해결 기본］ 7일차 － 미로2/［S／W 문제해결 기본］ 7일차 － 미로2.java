@@ -11,7 +11,6 @@ public class Solution {
 
     // DFS (깊이 우선 탐색) 메소드
     static void DFS(int r, int c) {
-        if (maze[r][c] == 1) return; // 백트래킹
         if (maze[r][c] == 3) { // 도착점 도달
             ans = 1;
             return;
@@ -20,7 +19,7 @@ public class Solution {
         for (int d = 0; d < 4; d++) {
             int nr = r + dr[d];
             int nc = c + dc[d];
-            if (nr < 0 || nc < 0 || nr >= 100 || nc >= 100 || visited[nr][nc]) continue;
+            if (nr < 0 || nc < 0 || nr >= 100 || nc >= 100 || visited[nr][nc] || maze[nr][nc] == 1) continue;
             visited[nr][nc] = true;
             DFS(nr, nc);
         }
@@ -33,7 +32,7 @@ public class Solution {
             int N = Integer.parseInt(br.readLine()); // 테스트 케이스 번호
             maze = new int[100][100];
             visited = new boolean[100][100];
-            ans = 0; // 도달 가능 여부
+            ans = 0;
 
             for (int i = 0; i < 100; i++) {
                 String s = br.readLine();
