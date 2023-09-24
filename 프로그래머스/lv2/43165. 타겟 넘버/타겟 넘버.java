@@ -3,15 +3,15 @@ import java.util.*;
 class Solution {
     static boolean[] visited; // 방문 체크
     static int answer; // 경우의 수
-    static int sum;
+    static int sum; // 합
     
     // 재귀 함수
     static void recursion(int[] arr, int target, int idx){
         sum = 0;
         if (idx == arr.length) {
             for (int i = 0; i < arr.length; i++) {
-                if (visited[i]) sum += arr[i];
-                else sum -= arr[i];
+                if (visited[i]) sum += arr[i]; // 선택한 원소 더하기
+                else sum -= arr[i]; // 선택하지 않은 원소 빼기
             }
             if (sum == target) answer++;
             return ;
