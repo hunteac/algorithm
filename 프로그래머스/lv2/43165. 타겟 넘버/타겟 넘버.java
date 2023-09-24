@@ -1,33 +1,32 @@
 import java.util.*;
 
 class Solution {
-    static boolean[] visited; // 방문 체크
+    static int[] sel; // 숫자 선택 배열
     static int answer; // 경우의 수
     static int sum; // 합
     
-    // 재귀 함수
-    static void recursion(int[] arr, int target, int idx){
+    // 깊이 우선 탐색 메소드
+    static void DFS(int[] arr, int target, int depth){
         sum = 0;
-        if (idx == arr.length) {
-            for (int i = 0; i < arr.length; i++) {
-                if (visited[i]) sum += arr[i]; // 선택한 원소 더하기
-                else sum -= arr[i]; // 선택하지 않은 원소 빼기
+        if (depth == arr.length) {
+            for (int n : sel) {
+                sum += n;
             }
             if (sum == target) answer++;
-            return ;
+            return;
         }
         
-        visited[idx] = true; // 원소 선택
-        recursion(arr, target, idx + 1);
-        visited[idx] = false; // 원소 선택 X
-        recursion(arr, target, idx + 1);
+        sel[depth] = arr[depth]; // 원소 선택
+        DFS(arr, target, depth + 1);
+        sel[depth] = - arr[depth]; // 원소 선택 X
+        DFS(arr, target, depth + 1);
     }
     
     public int solution(int[] numbers, int target) {
-        visited = new boolean[numbers.length];
+        sel = new int[numbers.length];
         answer = 0;
         
-        recursion(numbers, target, 0); // 재귀 함수 호출       
+        DFS(numbers, target, 0);
                                                  
         return answer;
     }
