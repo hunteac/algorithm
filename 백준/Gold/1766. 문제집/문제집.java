@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
@@ -9,11 +12,11 @@ public class Main {
     static int M; // 간선 수
 
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        N = sc.nextInt();
-        M = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
         adjList = new ArrayList[N + 1];
         d = new int[N + 1];
@@ -23,8 +26,9 @@ public class Main {
         }
 
         for (int i = 0; i < M; i++) {
-            int A = sc.nextInt();
-            int B = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
             adjList[A].add(B);
             d[B]++;
         }
