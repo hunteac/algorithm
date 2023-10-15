@@ -1,8 +1,9 @@
+import java.io.*;
 import java.util.*;
 
 public class Main {
     // 동적계획법의 핵심은 메모이제이션(부분 문제 결과 저장)
-    static int[][][] dp = new int[21][21][21]; 
+    static int[][][] dp = new int[21][21][21];
 
     static int w(int a, int b, int c) {
 
@@ -22,20 +23,19 @@ public class Main {
         return a >= 0 && a <= 20 && b >=0 && b <= 20 && c >= 0 && c <= 20;
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-        while (sc.hasNext()) {
-
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            int c = sc.nextInt();
+        while (true) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int c = Integer.parseInt(st.nextToken());
 
             if (a == -1 && b == -1 && c == -1) break;
 
             System.out.printf("w(%d, %d, %d) = %d\n", a, b, c, w(a, b, c));
         }
-
-        sc.close();
     }
 }
