@@ -66,7 +66,7 @@ public class Main {
             int[] dp = new int[n + 1];
 
             for (int i = 1; i <= n; i++) {
-                if (nums[i] == 0 && set.contains(i)) {
+                if (nums[i] == 0 && set.contains(i)) { // 선행 건물이 없는 건물들 큐에 넣기
                     queue.add(i);
                     dp[i] = time[i];
                 }
@@ -80,17 +80,19 @@ public class Main {
                 for (int i = 0; i < len; i++) {
                     int curr = queue.poll();
 
-                    if (curr == target) break Outer;
+                    if (curr == target) break Outer; // 건설 완료
 
                     for (int j = 0; j < lists[curr].size(); j++) {
                         int next = lists[curr].get(j); // 선행 건물 번호
                         if (--nums[next] == 0 && set.contains(next)) queue.add(next); // 건설 시작
-                        dp[next] = Math.max(dp[next], dp[curr] + time[next]);
+                        dp[next] = Math.max(dp[next], dp[curr] + time[next]); // 동적계획법 최대 시간 갱신
                     }
                 }
             }
+            
             sb.append(dp[target]).append("\n");
         }
+        
         System.out.println(sb);
     }
 }
