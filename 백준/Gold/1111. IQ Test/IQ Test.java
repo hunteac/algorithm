@@ -21,24 +21,23 @@ public class Main {
             else System.out.println("A");
         } else { // 3개 이상인 경우
             boolean chk = true; // 다음 수를 구할 수 있는지 확인
-            int len = nums.length;
             int a = 0;
             int b = 0;
-            if (nums[1] - nums[0] == 0 && nums[2] - nums[1] == 0) {
+            if (nums[1] - nums[0] == 0 && nums[2] - nums[1] == 0) { // a == 1 인 경우
                 a = 1;
-            } else if (nums[1] - nums[0] == 0) {
+            } else if (nums[1] - nums[0] == 0) { // nums[1] - nums[0] == 0 인 경우는 다음 수를 구할 수 없다.
                 System.out.println("B");
                 return;
-            } else {
+            } else { // a, b 구하기
                 a = (nums[2] - nums[1]) / (nums[1] - nums[0]);
-                b = nums[len - 1] - nums[len - 2] * a;
+                b = nums[nums.length - 1] - nums[nums.length - 2] * a;
             }
 
-            for (int i = 0; i < len - 1; i++) {
+            for (int i = 0; i < nums.length - 1; i++) {
                 if (nums[i] * a + b != nums[i + 1]) chk = false; // 다음 수를 구할 수 없으면 false
             }
 
-            if (chk) System.out.println(nums[len - 1] * a + b);
+            if (chk) System.out.println(nums[nums.length - 1] * a + b);
             else System.out.println("B");
         }
     }
