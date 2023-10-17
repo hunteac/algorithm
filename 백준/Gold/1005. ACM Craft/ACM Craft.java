@@ -18,7 +18,6 @@ public class Main {
             int m = Integer.parseInt(st.nextToken()); // 관계 개수
 
             ArrayList<Integer>[] lists = new ArrayList[n + 1];
-            ArrayList<Integer>[] tmp = new ArrayList[n + 1];
 
             int[] nums = new int[n + 1]; // 선행 건물 개수
             int[] time = new int[n + 1]; // 건물별 건설 시간
@@ -28,7 +27,6 @@ public class Main {
             for (int i = 1; i <= n; i++) {
                 time[i] = Integer.parseInt(st.nextToken());
                 lists[i] = new ArrayList<>();
-                tmp[i] = new ArrayList<>();
             }
 
             for (int i = 0; i < m; i++) {
@@ -36,7 +34,6 @@ public class Main {
                 int X = Integer.parseInt(st.nextToken()); // 선행 건물
                 int Y = Integer.parseInt(st.nextToken()); // 다음 건물
 
-                tmp[Y].add(X);
                 lists[X].add(Y);
 
                 nums[Y]++;
@@ -46,27 +43,11 @@ public class Main {
             int min = 0; // 건설완료 최소시간
 
             Queue<Integer> queue = new LinkedList<>();
-            HashSet<Integer> set = new HashSet<>();
-
-            queue.add(target);
-
-            while (!queue.isEmpty()) {
-                int curr = queue.poll();
-
-                set.add(curr);
-
-                for (int i = 0; i < tmp[curr].size(); i++) {
-                    int next = tmp[curr].get(i);
-                    if (!set.contains(next)) {
-                        queue.add(next);
-                    }
-                }
-            }
 
             int[] dp = new int[n + 1];
 
             for (int i = 1; i <= n; i++) {
-                if (nums[i] == 0 && set.contains(i)) { // 선행 건물이 없는 건물들 큐에 넣기
+                if (nums[i] == 0) { // 선행 건물이 없는 건물들 큐에 넣기
                     queue.add(i);
                     dp[i] = time[i];
                 }
@@ -84,15 +65,13 @@ public class Main {
 
                     for (int j = 0; j < lists[curr].size(); j++) {
                         int next = lists[curr].get(j); // 선행 건물 번호
-                        if (--nums[next] == 0 && set.contains(next)) queue.add(next); // 건설 시작
+                        if (--nums[next] == 0) queue.add(next); // 건설 시작
                         dp[next] = Math.max(dp[next], dp[curr] + time[next]); // 동적계획법 최대 시간 갱신
                     }
                 }
             }
-            
             sb.append(dp[target]).append("\n");
         }
-        
         System.out.println(sb);
     }
 }
