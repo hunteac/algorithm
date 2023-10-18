@@ -22,16 +22,16 @@ class Solution {
         }
         
         for (int i = 0; i < numbers.length; i++) { // 1, 4, 7: 왼손
-            if (numbers[i] == 1 || numbers[i] == 4 || numbers[i] == 7) {
+            int num = numbers[i];
+            if (num == 1 || num == 4 || num == 7) {
                 answer += "L";
-                left[0] = keypad[numbers[i]][0]; // 왼손 위치 옮기기
-                left[1] = keypad[numbers[i]][1];
-            } else if (numbers[i] == 3 || numbers[i] == 6 || numbers[i] == 9) { // 3, 6, 9: 오른손
+                left[0] = keypad[num][0]; // 왼손 위치 옮기기
+                left[1] = keypad[num][1];
+            } else if (num == 3 || num == 6 || num == 9) { // 3, 6, 9: 오른손
                 answer += "R";
-                right[0] = keypad[numbers[i]][0]; // 오른손 위치 옮기기
-                right[1] = keypad[numbers[i]][1];
+                right[0] = keypad[num][0]; // 오른손 위치 옮기기
+                right[1] = keypad[num][1];
             } else { // 2, 5, 8, 0: 거리 측정
-                int num = numbers[i];
                 // 오른손 거리
                 int rdist = Math.abs(keypad[num][0] - right[0]) + Math.abs(keypad[num][1] - right[1]);
                 // 왼손 거리
