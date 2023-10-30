@@ -4,7 +4,7 @@
 
 ### 성능 요약
 
-메모리: 13548 KB, 시간: 132 ms
+메모리: 15100 KB, 시간: 140 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2023년 10월 10일 16:00:41
+2023년 10월 12일 11:58:49
 
 ### 문제 설명
 
@@ -22,7 +22,7 @@
 
 <p>아래 그림은 6개의 구역이 있는 것이고, 인접한 구역은 선으로 연결되어 있다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/08218f4c-2653-4861-a4c1-e7ce808f3a85/-/preview/" style="width: 220px; height: 195px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="width: 220px; height: 195px;"></p>
 
 <p>아래는 백준시를 두 선거구로 나눈 4가지 방법이며, 가능한 방법과 불가능한 방법에 대한 예시이다.</p>
 
@@ -30,8 +30,8 @@
 	<tbody>
 		<tr>
 			<td style="width: 25%; text-align: center;"><img alt="" src="https://upload.acmicpc.net/b82fcf21-6f4c-4797-bda6-215e14099d19/-/preview/" style="width: 220px; height: 195px;"></td>
-			<td style="width: 25%; text-align: center;"><img alt="" src="https://upload.acmicpc.net/32947e26-4ec4-4b20-99f1-106d8386683d/-/preview/" style="width: 220px; height: 195px;"></td>
-			<td style="width: 25%; text-align: center;"><img alt="" src="https://upload.acmicpc.net/f5dd6143-c013-46d3-ba4c-dadc48bdf5bc/-/preview/" style="width: 220px; height: 195px;"></td>
+			<td style="width: 25%; text-align: center;"><img alt="" src="" style="width: 220px; height: 195px;"></td>
+			<td style="width: 25%; text-align: center;"><img alt="" src="" style="width: 220px; height: 195px;"></td>
 			<td style="width: 25%; text-align: center;"><img alt="" src="https://upload.acmicpc.net/548b1153-84de-4b85-9697-2561b019a02b/-/preview/" style="width: 220px; height: 195px;"></td>
 		</tr>
 		<tr>
