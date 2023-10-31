@@ -5,52 +5,38 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N;
-	static long M , max;
-	static long[] len;
-	
-	public static void main(String[] args)throws IOException {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		StringTokenizer st = new StringTokenizer(br.readLine() , " ");
+		int K = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
 		
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		int[] lan = new int[K];
 		
-		len = new long[N];
-		max = 0;
-		for (int i = 0; i < N; i++) {
-			int a = Integer.parseInt(br.readLine());
-			len[i] = a;
-			if (a > max) {
-				max = a;
-			}
+		for (int i = 0; i < K; i++) {
+			lan[i] = Integer.parseInt(br.readLine());
 		}
 		
-		binarySearch();
+		long left = 1;
+		long right = Integer.MAX_VALUE;
 		
-	}
-
-	private static void binarySearch() {
-		long lo = 0;
-		long hi = max+1;
-		long mid = 0;
-		while (lo < hi) {
-			mid = (lo+hi)/2;
-//			System.out.println(mid);
-			long sum = 0;
+		long cnt, mid;
+		
+		// 이분탐색
+		while (left <= right) {
+			cnt = 0;
+			mid = (left + right) / 2;
 			
-			for (int i = 0; i < N; i++) {
-				sum += (len[i]/mid);
+			for (int i = 0; i < K; i++) {
+				cnt += lan[i] / mid;
 			}
-			if (sum < M) {
-				hi = mid ;
-			}else {
-				lo = mid + 1;
-			}
-			
+					
+			// 범위 절반으로 줄이기
+			if (cnt < N) right = mid - 1;
+			else left = mid + 1;
 		}
-		System.out.println(lo-1);
+		
+		System.out.println(right);
 	}
-
 }
