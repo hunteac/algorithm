@@ -16,11 +16,8 @@ public class Main {
 
         int[] sum = new int[N + 1];
 
-        for (int i = 1; i <= N; i++) {
-            sum[i] = Integer.parseInt(st.nextToken());
-        }
-
         for (int i = 1; i <= N; i++) { // 누적합 구하기
+            sum[i] = Integer.parseInt(st.nextToken());
             sum[i] += sum[i - 1];
         }
 
