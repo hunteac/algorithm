@@ -21,26 +21,17 @@ public class Main {
 		}
 		
 		int cnt = 0;
+		int chk = 0;
 		
-		for (int i = 0; i <= M - (N * 2 + 1); i++) {
-			if (s.charAt(i) == 'O') continue;
-			boolean chk = true;
-			
-			for (int j = i; j < i + (N * 2 + 1); j += 2) {
-				if (j != i + N * 2) {
-					if (s.charAt(j) != 'I' || s.charAt(j + 1) != 'O') {
-						chk = false;
-						break;
-					}
-				} else {
-					if (s.charAt(j) != 'I') {
-						chk = false;
-						break;
-					}
-				}
+		for (int i = 0; i <= M - 3; i++) {
+			if (s.charAt(i) == 'I' && s.charAt(i + 1) == 'O' && s.charAt(i + 2) == 'I') {
+				chk++;
+				i++;
+			} else {
+				chk = 0;
 			}
 			
-			if (chk) cnt++;
+			if (chk >= N) cnt++;
 		}
 		
 		System.out.println(cnt);
