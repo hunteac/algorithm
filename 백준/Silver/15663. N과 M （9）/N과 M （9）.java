@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static Set<String> set = new HashSet<>(); // 중복 제거를 위한 셋 
-	static StringBuilder sb = new StringBuilder();
+	static StringBuilder printsb = new StringBuilder();
 	static boolean[] visited; // 방문 체크
 	static int[] nums; // 숫자 배열
 	static int[] p; // 수열 배열
@@ -18,16 +18,13 @@ public class Main {
 	// 순열 알고리즘
 	static void permutation(int idx) {
 		if (idx == M) {
-			sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			
-			for (int i = 0; i < M; i++) sb.append(p[i]).append(" ");
-				
-			if (set.contains(sb.toString())) return; // 중복 수열이면 종료
+			for (int i = 0; i < M; i++) sb.append(p[i] + " ");
 			
-			set.add(sb.toString()); // 수열 담기
+			if (!set.add(sb.toString())) return; // 중복 수열이면 종료
 			
-			for (int i = 0; i < M; i++) System.out.print(p[i] + " "); // 수열 출력
-			System.out.println();
+			printsb.append(sb.toString()).append("\n"); // 수열 담기
 			
 			return; // 종료
 		}
@@ -35,7 +32,7 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			if (visited[i]) continue; // 선택한 원소면 continue
 			visited[i] = true; // 원소 선택
-			p[idx] = nums[i];
+			p[idx] = nums[i]; // 원소 담기
 			permutation(idx + 1); // 다음 원소
 			visited[i] = false; // 원소 선택 X
 		}
@@ -61,5 +58,7 @@ public class Main {
         Arrays.sort(nums); // 오름차순 정렬
         
         permutation(0); // 순열 알고리즘
+        
+        System.out.println(printsb); // 최종 수열 출력
     }
 }
