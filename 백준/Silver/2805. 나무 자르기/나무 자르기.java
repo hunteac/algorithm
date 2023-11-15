@@ -40,10 +40,7 @@ public class Main {
 				tmpsum += tree[i] - mid - 1;
 			}
 			
-			if (sum >= M && tmpsum < M) break;
-			
-//			System.out.println("start : " + start + " end : " + end);
-//			System.out.println("mid : " + mid + " sum : " + sum + " tmpsum : " + tmpsum);
+			if (sum >= M && tmpsum < M) break; // 현재 높이가 길이를 얻을 수 있는 최대 높이라면
 			
 			if (sum < M) end = mid - 1; // 길이가 모자라면 높이 줄이기
 			else if (sum > M) start = mid + 1; // 길이가 남으면 높이 늘리기
