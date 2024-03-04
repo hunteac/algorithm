@@ -16,8 +16,8 @@ class Solution {
     public String solution(int n, int m, int x, int y, int r, int c, int k) {
         String answer = "";
         
-        int[] dr = { 1, 0, 0, -1 };
-        int[] dc = { 0, -1, 1, 0 };
+        int[] dr = { 1, 0, 0, -1 }; // 행 탐색
+        int[] dc = { 0, -1, 1, 0 }; // 열 탐색
         
         Queue<Pos> queue = new LinkedList<>();
         
@@ -45,21 +45,7 @@ class Solution {
                 int pc = p.c;
                 String str = p.str;
                 
-                // System.out.println("pr : " + pr + " pc : " + pc + " cnt : " + cnt + " str : " + str);
-                
-                if (cnt == k && pr == r && pc == c) {
-                    if (answer.length() < str.length()) answer = str;
-                    else {
-                        for (int j = 0; j < answer.length(); j++) {
-                            if (answer.charAt(j) > str.charAt(j)) {
-                                answer = str;
-                                break;
-                            } else if (answer.charAt(j) < str.charAt(j)) {
-                                break;
-                            }
-                        }
-                    }
-                }
+                if (cnt == k && pr == r && pc == c) answer = str; // 도착
                 
                 for (int d = 0; d < 4; d++) {
                     int nr = pr + dr[d];
@@ -89,6 +75,6 @@ class Solution {
         }
         
         if (answer.isEmpty()) return "impossible"; // 탈출 불가능
-        else return answer;
+        else return answer; // 가능
     }
 }
