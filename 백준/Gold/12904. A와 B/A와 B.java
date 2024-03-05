@@ -1,40 +1,34 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
 
-class Main {
-    public static void main(String[] args) throws IOException {
+public class Main {
+    static String S, T;
+
+    private static String reverse(String s) {
+        StringBuffer sb = new StringBuffer(s);
+        return sb.reverse().toString();
+    }
+
+    public static void main(String args[]) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String S = br.readLine();
-        String T = br.readLine();
+        S = br.readLine();
+        T = br.readLine();
 
-        StringBuffer sb = new StringBuffer(T);
-        String reverseT = sb.reverse().toString();
-
-        boolean chk = false;
-
-        Queue<String> queue = new LinkedList<>();
-        queue.add(S);
-
-        while (!queue.isEmpty()) {
-            String str = queue.poll();
-
-            if (str.equals(T)) {
-                chk = true;
-                break;
+        while (T.length() > S.length()) {
+            if (T.charAt(T.length() - 1) == 'A') { // A 제거
+                T = T.substring(0, T.length() - 1);
+            } else { // B 제거
+                T = T.substring(0, T.length() - 1);
+                T = reverse(T);
             }
-
-            sb = new StringBuffer(str);
-            String reverse = sb.reverse().toString();
-
-            if (T.contains(str + "A") || reverseT.contains(str + "A")) queue.add(str + "A");
-            if (T.contains(reverse + "B") || reverseT.contains(reverse + "B")) queue.add(reverse + "B");
         }
 
-        if (chk) System.out.println(1);
-        else System.out.println(0);
+        if (T.equals(S)) {
+            System.out.println(1);
+        } else {
+            System.out.println(0);
+        }
     }
 }
