@@ -52,8 +52,6 @@ public class Main {
             int cnt = p.cnt;
             boolean chk = p.chk;
 
-//            System.out.println(r + " " + c);
-
             if (r == N - 1 && c == M - 1) { // 도착
                 min = Math.min(min, cnt); // 최솟값 갱신
             }
