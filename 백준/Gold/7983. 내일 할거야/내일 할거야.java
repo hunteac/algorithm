@@ -9,7 +9,7 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
 
         Map<Integer, Integer> works = new HashMap<>();
-        HashSet<Integer> set = new HashSet<>();
+        int[] times = new int[N];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -18,20 +18,18 @@ public class Main {
             int t = Integer.parseInt(st.nextToken()); // 마감일
 
             works.put(t, works.getOrDefault(t, 0) + d);
-            set.add(t);
+            times[i] = t;
         }
 
-        ArrayList<Integer> times = new ArrayList<>(set);
+        Arrays.sort(times);
 
-        Collections.sort(times); // 오름차순 정렬
+        int day = times[N - 1] - works.get(times[N - 1]); // 마지막 과제 시작일
 
-        int len = times.size();
-        int day = times.get(len - 1) - works.get(times.get(len - 1)); // 마지막 과제 시작일
-
-        for (int i = len - 2; i >= 0; i--) { // 역순
-            int nextT = times.get(i); // 이전 과제 마감 시간
+        for (int i = N - 2; i >= 0; i--) { // 역순
+            if (times[i + 1] == times[i]) continue; // 중복 계산 방지
+            int nextT = times[i]; // 이전 과제 마감 시간
             int nextD = works.get(nextT); // 이전 과제 걸리는 시간
-            if (day < nextT) { // 과제를 하는 기간이 중복되는 경우
+            if (day < nextT) { // 과제를 하는 기간이 겹치는 경우
                 day -= nextD; // 그대로 차감
                 continue;
             }
