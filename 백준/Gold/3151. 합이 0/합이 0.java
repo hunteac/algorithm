@@ -21,38 +21,49 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        ArrayList<Integer> list = new ArrayList<>();
-        boolean[] check = new boolean[20001]; // 점수 존재 여부 체크
+        boolean[] check = new boolean[20001]; // 점수 존재 여부
         int[] count = new int[20001]; // 점수 개수
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
+        int len = 0;
+
         for (int i = 0; i < N; i++) {
             int num = Integer.parseInt(st.nextToken());
-            if (!list.contains(num)) list.add(num);
 
             if (num < 0) num = 10000 - num;
-            check[num] = true;
+            if (!check[num]) {
+                check[num] = true;
+                len++;
+            }
             count[num]++;
         }
 
-        Collections.sort(list); // 오름차순 정렬
+        int[] nums = new int[len];
+        int idx = 0;
+
+        for (int i = 0; i < check.length; i++) {
+            if (check[i]) {
+                if (i > 10000) nums[idx++] = 10000 - i;
+                else nums[idx++] = i;
+            }
+        }
 
         boolean[] setChk = new boolean[20001]; // 중복 계산 체크
         long cnt = 0; // 경우의 수
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < len - 1; i++) {
             int num1 = 0;
-            for (int j = i + 1; j < list.size(); j++) {
-                num1 = list.get(i);
-                int num2 = list.get(j);
+            for (int j = i + 1; j < len; j++) {
+                num1 = nums[i];
+                int num2 = nums[j];
 
                 int target = -(num1 + num2); // 0을 만드는 수
 
-                if (target < -10000 || target > 10000) continue;
-                if (target < 0) target = 10000 - target; // 음수 변환
-                if (num1 < 0) num1 = 10000 - num1;
+                if (num1 < 0) num1 = 10000 - num1; // 음수 -> 양수 변환
                 if (num2 < 0) num2 = 10000 - num2;
+                if (target < -10000 || target > 10000) continue;
+                if (target < 0) target = 10000 - target; // 음수 -> 양수 변환
 
                 if (setChk[target] || setChk[num2]) continue; // 중복 계산 continue
 
@@ -72,8 +83,7 @@ public class Main {
             }
 
             Arrays.fill(setChk, false); // 초기화
-
-            check[num1] = false;
+            check[num1] = false; // 계산한 값 제거
         }
 
         if (count[0] > 2) cnt += getComb(count[0], 3); // 0이 3개인 경우
