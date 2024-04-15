@@ -5,76 +5,81 @@ import java.util.*;
 
 public class Main {
     static class Order {
-        String num;
-        String str;
+        int num;
+        String command;
 
-        Order (String num, String str) {
+        Order (int num, String command) {
             this.num = num;
-            this.str = str;
+            this.command = command;
+        }
+
+        int D () {
+            return (num * 2) % 10000;
+        }
+
+        int S () {
+            return num == 0 ? 9999 : num - 1;
+        }
+
+        int L () {
+            return (num * 10) % 10000 + (num / 1000);
+        }
+
+        int R () {
+            return (num % 10 * 1000) + (num / 10);
         }
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
 
         int T = Integer.parseInt(br.readLine());
 
         for (int t = 0; t < T; t++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
 
-            boolean[] chk = new boolean[10000]; // 중복 체크
+            boolean[] chk = new boolean[10000];
             int A = Integer.parseInt(st.nextToken());
             int B = Integer.parseInt(st.nextToken());
 
             Queue<Order> queue = new LinkedList<>();
 
-            queue.add(new Order(String.valueOf(A), ""));
+            queue.add(new Order(A, ""));
             String answer = "";
 
             while (!queue.isEmpty()) {
                 Order order = queue.poll();
 
-                String num = order.num;
-                String str = order.str;
-                int n = Integer.parseInt(num);
+                int num = order.num;
+                String command = order.command;
 
-                StringBuilder nextStr = new StringBuilder();
-
-                nextStr.append("0".repeat(Math.max(0, 4 - num.length())));
-                nextStr.append(num);
-
-                if (Integer.parseInt(num) == B) { // 완성
-                    answer = str;
+                if (num == B) { // 완성
+                    sb.append(command).append("\n");
                     break;
                 }
 
-                int next = n * 2 % 10000;
-                if (!chk[next]) {
-                    queue.add(new Order(String.valueOf(next), str + "D")); // D
-                    chk[next] = true;
+                if (!chk[order.D()]) { // D
+                    queue.add(new Order(order.D(), command + "D")); // D
+                    chk[order.D()] = true;
                 }
 
-                next = n == 0 ? 9999 : n - 1;
-                if (!chk[next]) {
-                    queue.add(new Order(String.valueOf(next), str + "S")); // S
-                    chk[next] = true;
+                if (!chk[order.S()]) { // S
+                    queue.add(new Order(order.S(), command + "S")); // S
+                    chk[order.S()] = true;
                 }
 
-                next = Integer.parseInt(nextStr.substring(1) + nextStr.charAt(0));
-                if (!chk[next] && (!str.endsWith("LLL") || str.charAt(str.length() - 1) != 'R')) {
-                    queue.add(new Order(String.valueOf(next), str + "L")); // L
-                    chk[next] = true;
+                if (!chk[order.L()]) { // L
+                    queue.add(new Order(order.L(), command + "L")); // L
+                    chk[order.L()] = true;
                 }
 
-                next = Integer.parseInt(nextStr.charAt(3) + nextStr.substring(0, 3));
-                if (!chk[next] && (!str.endsWith("RRR") || str.charAt(str.length() - 1) != 'L')) {
-                    queue.add(new Order(String.valueOf(next), str + "R")); // R
-                    chk[next] = true;
+                if (!chk[order.R()]) { // R
+                    queue.add(new Order(order.R(), command + "R")); // R
+                    chk[order.R()] = true;
                 }
             }
-
-            sb.append(answer).append("\n");
         }
 
         System.out.println(sb);
