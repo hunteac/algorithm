@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,14 +11,44 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
+        int[] nums = new int[N];
+
         st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) nums[i] = Integer.parseInt(st.nextToken());
 
-        ArrayList<Integer> nums = new ArrayList<>();
+        quickSort(nums, 0, N - 1);
 
-        for (int i = 0; i < N; i++) nums.add(Integer.parseInt(st.nextToken()));
+        System.out.println(nums[K - 1]);
+    }
 
-        Collections.sort(nums);
+    public static void quickSort(int[] nums, int left, int right) {
+        if (left + 1 == right) {
+            if (nums[left] > nums[right]) {
+                swap(nums, left, right);
+                return;
+            }
+        }
 
-        System.out.println(nums.get(K - 1));
+        int currL = left;
+        int currR = right;
+        int pivot = nums[(left + right) / 2];
+
+        while (currL <= currR) {
+            while (nums[currL] < pivot) currL++;
+            while (nums[currR] > pivot) currR--;
+
+            if (currL <= currR) {
+                swap(nums, currL++, currR--);
+            }
+        }
+
+        if (left < currR) quickSort(nums, left, currR);
+        if (right > currL) quickSort(nums, currL, right);
+    }
+
+    public static void swap(int[] nums, int A, int B) {
+        int tmp = nums[B];
+        nums[B] = nums[A];
+        nums[A] = tmp;
     }
 }
