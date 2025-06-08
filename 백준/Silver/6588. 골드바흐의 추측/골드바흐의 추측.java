@@ -18,21 +18,15 @@ public class Main {
 
             boolean chk = false;
 
-            int prime = 0;
-
-            for (int i = 3; i < primeChk.length; i++) {
-                if (primeChk[i]) continue;
-
-                prime = i;
-                
-                if (!primeChk[n - prime]) {
+            for (int i = 3; i < n; i++) {
+                if (!primeChk[i] && !primeChk[n - i]) {
+                    sb.append(n).append(" = ").append(i).append(" + ").append(n - i).append("\n");
                     chk = true;
                     break;
                 }
             }
 
-            if (chk) sb.append(n).append(" = ").append(prime).append(" + ").append(n - prime).append("\n");
-            else sb.append("Goldbach's conjecture is wrong.").append("\n");
+            if (!chk) sb.append("Goldbach's conjecture is wrong.").append("\n");
         }
 
         System.out.println(sb);
