@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -16,18 +15,20 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
 
-        for (int i = 0; i < N; i++) {
-            heights[i] = Integer.parseInt(st.nextToken());
-        }
-
-        Arrays.sort(heights);
-
-        int start = 0;
-        int end = heights[N - 1];
         int max = 0;
 
+        for (int i = 0; i < N; i++) {
+            heights[i] = Integer.parseInt(st.nextToken());
+            max = Math.max(max, heights[i]);
+        }
+
+        int start = 0;
+        int end = max;
+        int mid = 0;
+        max = 0;
+
         while (start + 1 < end) {
-            int mid = (start + end) / 2;
+            mid = (start + end) / 2;
 
             if (checkHeight(heights, mid, M)) {
                 max = Math.max(max, mid);
