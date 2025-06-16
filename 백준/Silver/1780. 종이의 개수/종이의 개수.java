@@ -4,16 +4,16 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static int minus = 0, zero = 0, plus = 0;
+    public static int[][] paper;
+    public static int[] cnt;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
         StringTokenizer st;
 
         int N = Integer.parseInt(br.readLine());
 
-        int[][] paper = new int[N][N];
+        paper = new int[N][N];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -23,39 +23,33 @@ public class Main {
             }
         }
 
-        getPaper(paper, N, 0, 0);
+        cnt = new int[3];
+        getPaper(N, 0, 0);
 
-        sb.append(minus).append("\n").append(zero).append("\n").append(plus).append("\n");
-
-        System.out.println(sb);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(cnt[i]);
+        }
     }
 
-    public static void getPaper(int[][] paper, int N, int r, int c) {
-        boolean chk = true;
-
-        int start = paper[r][c];
+    public static void getPaper(int N, int r, int c) {
+        int color = paper[r][c];
+        int next = N / 3;
 
         for (int i = r; i < r + N; i++) {
             for (int j = c; j < c + N; j++) {
-                if (paper[i][j] != start) {
-                    chk = false;
-                    break;
+                if (paper[i][j] != color) {
+
+                    for (int k = 0; k < 3; k++) {
+                        for (int l = 0; l < 3; l++) {
+                            getPaper(next, r + next * k, c + next * l);
+                        }
+                    }
+
+                    return;
                 }
             }
         }
 
-        if (chk) {
-            if (start == -1) minus++;
-            if (start == 0) zero++;
-            if (start == 1) plus++;
-        } else {
-            int next = N / 3;
-
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    getPaper(paper, next, r + next * i, c + next * j);
-                }
-            }
-        }
+        cnt[color + 1]++;
     }
 }
