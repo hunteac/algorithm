@@ -4,8 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static int[] arr, tmp;
-	
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -14,55 +12,37 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         
-        arr = new int[N + M];
-        tmp = new int[N + M];
+        int[] arr1 = new int[N];
+        int[] arr2 = new int[M];
         
         st = new StringTokenizer(br.readLine());
         
-        for (int i = 0; i < N; i++) arr[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) arr1[i] = Integer.parseInt(st.nextToken());
         
         st = new StringTokenizer(br.readLine());
         
-        for (int i = N; i < N + M; i++) arr[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < M; i++) arr2[i] = Integer.parseInt(st.nextToken());
 
-        mergeSort(0, N + M - 1);
+        int idx1 = 0;
+        int idx2 = 0;
         
-        for (int i = 0; i < arr.length; i++) sb.append(arr[i]).append(" ");
+        for (int i = 0; i < N + M; i++) {
+        	if (idx1 < N && idx2 < M) {
+        		int num1 = arr1[idx1];
+            	int num2 = arr2[idx2];
+        		
+        		if (num1 <= num2) {
+        			sb.append(arr1[idx1++]).append(" ");
+        		} else {
+        			sb.append(arr2[idx2++]).append(" ");
+        		}
+        	} else if (idx2 < M) {
+        		sb.append(arr2[idx2++]).append(" ");
+        	} else {
+        		sb.append(arr1[idx1++]).append(" ");
+        	}
+        }
         
         System.out.println(sb);
-    }
-    
-    public static void mergeSort(int left, int right) {
-    	if (left >= right) return;
-    	
-    	int mid = (left + right) / 2;
-    	mergeSort(left, mid);
-    	mergeSort(mid + 1, right);
-    	merge(left, mid, right);
-    }
-    
-    public static void merge(int left, int mid, int right) {
-    	int l = left;
-    	int r = mid + 1;
-    	int k = l;
-    	
-    	while (l <= mid && r <= right) {
-    		if (arr[l] <= arr[r]) tmp[k++] = arr[l++];
-    		else tmp[k++] = arr[r++];
-    	}
-    	
-    	if (l > mid) {
-    		for (int i = r; i <= right; i++) {
-    			tmp[k++] = arr[i];
-    		}
-    	} else {
-    		for (int i = l; i <= mid; i++) {
-    			tmp[k++] = arr[i];
-    		}
-    	}
-    	
-    	for (int i = left; i <= right; i++) {
-    		arr[i] = tmp[i];
-    	}
     }
 }
