@@ -21,11 +21,10 @@ public class Main {
         	}
         }
         
-        int m = isbn.charAt(12) - '0';
-        int target = m == 0 ? 0 : 10 - m;
+        int m = isbn.charAt(12) - '0' == 0 ? 10 : isbn.charAt(12) - '0';
         
         for (int num = 0; num <= 9; num++) {
-        	if ((sum + num * weight) % 10 == target) {
+        	if (10 - ((sum + num * weight) % 10) == m) {
         		System.out.println(num);
         		break;
         	}
