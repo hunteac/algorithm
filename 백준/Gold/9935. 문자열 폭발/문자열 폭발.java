@@ -1,51 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
         
         String str = br.readLine();
         String bomb = br.readLine();
-        
-        Stack<Character> stack = new Stack<>();
 
+        StringBuilder sb = new StringBuilder();
+        int bombLen = bomb.length();
+        
         for (int i = 0; i < str.length(); i++) {
         	char c = str.charAt(i);
         	
-        	int len = bomb.length() - 1;
-        	char target = bomb.charAt(len);
+        	sb.append(c);
         	
-        	if (c == target && stack.size() >= len) {
-        		sb = new StringBuilder();
-        		sb.append(c);
+        	if (sb.length() >= bomb.length()) {
+        		boolean chk = true;
+        		int sbLen = sb.length();
         		
-        		for (int j = 0; j < len; j++) {
-        			sb.append(stack.pop());
+        		for (int j = 0; j < bombLen; j++) {
+        			if (sb.charAt(sbLen - bombLen + j) != bomb.charAt(j)) {
+        				chk = false;
+        				break;
+        			}
         		}
         		
-        		sb.reverse();
-        		
-        		if (!sb.toString().equals(bomb)) {
-        			for (int j = 0; j <= len; j++) {
-            			stack.push(sb.charAt(j));
-            		}
+        		if (chk) {
+        			sb.setLength(sbLen - bombLen);
         		}
-        	} else {
-        		stack.push(c);
         	}
         }
         
-        sb = new StringBuilder();
         
-        while (!stack.isEmpty()) {
-        	sb.append(stack.pop());
-        }
-        
-        if (sb.length() != 0) System.out.println(sb.reverse());
+        if (sb.length() != 0) System.out.println(sb);
         else System.out.println("FRULA");
     }
 }
