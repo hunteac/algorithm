@@ -4,45 +4,43 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-	static class Pos implements Comparable<Pos> {
-		int currNum;
-		int currCost;
-		String route;
-		
-		Pos(int currNum, int currCost, String route) {
-			this.currNum = currNum;
-			this.currCost = currCost;
-			this.route = route;
-		}
-		
-		@Override
-		public int compareTo(Pos p) {
-			return this.currCost - p.currCost;
-		}
-	}
-	
-	static class Edge {
+	static class Node implements Comparable<Node> {
 		int next;
 		int cost;
 		
-		Edge(int next, int cost) {
+		Node(int next, int cost) {
 			this.next = next;
 			this.cost = cost;
 		}
+		
+		@Override
+		public int compareTo(Node node) {
+			return this.cost - node.cost;
+		}
 	}
+	
+	static int n, m;
+	static int[] d, preCity;
+	static int start, end;
+	static ArrayList<ArrayList<Node>> list;
 	
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
         
-        int n = Integer.parseInt(br.readLine());
-        int m = Integer.parseInt(br.readLine());
+        n = Integer.parseInt(br.readLine());
+        m = Integer.parseInt(br.readLine());
+        d = new int[n + 1];
+        preCity = new int[n + 1];
         
-        ArrayList<ArrayList<Edge>> list = new ArrayList<>(); 
+        Arrays.fill(d, Integer.MAX_VALUE);
+        
+        list = new ArrayList<>();
         
         for (int i = 0; i <= n; i++) list.add(new ArrayList<>());
         
@@ -53,52 +51,61 @@ public class Main {
         	int target = Integer.parseInt(st.nextToken());
         	int cost = Integer.parseInt(st.nextToken());
         	
-        	list.get(start).add(new Edge(target, cost));
+        	list.get(start).add(new Node(target, cost));
         }
         
         st = new StringTokenizer(br.readLine());
         
-        int start = Integer.parseInt(st.nextToken());
-        int target = Integer.parseInt(st.nextToken());
-        int min = Integer.MAX_VALUE;
-        int len = 0;
-        String result = "";
+        start = Integer.parseInt(st.nextToken());
+        end = Integer.parseInt(st.nextToken());
+
+        dijkstra(start);
         
-        int[] minCosts = new int[n + 1];
-        PriorityQueue<Pos> queue = new PriorityQueue<>();
+        int curr = end;
+        int len = 1;
+        String route = "";
+        Stack<Integer> stack = new Stack<>();
         
-        Arrays.fill(minCosts, Integer.MAX_VALUE);
-        queue.add(new Pos(start, 0, String.valueOf(start)));
-        
-        while (!queue.isEmpty()) {
-        	Pos p = queue.poll();
-        	
-        	int currNum = p.currNum;
-        	int currCost = p.currCost;
-        	String route = p.route;
-        	
-        	if (currNum == target) {
-        		min = currCost;
-        		len = route.split(" ").length;
-        		result = route;
-        		break;
-        	}
-        	
-        	for (Edge e : list.get(currNum)) {
-        		int next = e.next;
-        		int cost = e.cost;
-        		int costSum = currCost + cost;
-        		if (costSum < minCosts[next]) {
-        			minCosts[next] = costSum;
-        			queue.add(new Pos(next, costSum, route + " " + next));
-        		}
-        	}
+        while (preCity[curr] != 0) {
+        	int pre = preCity[curr];
+        	stack.push(curr);
+        	curr = pre;
+        	len++;
         }
         
-        sb.append(min).append("\n");
+        stack.push(start);
+        
+        while (!stack.isEmpty()) {
+        	route += stack.pop() + " ";
+        }
+        
+        sb.append(d[end]).append("\n");
         sb.append(len).append("\n");
-        sb.append(result);
+        sb.append(route);
         
         System.out.println(sb);
+    }
+    
+    public static void dijkstra(int start) {
+    	PriorityQueue<Node> queue = new PriorityQueue<>();
+    	queue.add(new Node(start, 0));
+    	d[start] = 0;
+    	
+    	while (!queue.isEmpty()) {
+    		Node node = queue.poll();
+    		
+    		int curr = node.next;
+    		
+    		if (node.cost > d[curr]) continue;
+    		
+    		for (Node next : list.get(curr)) {
+    			if (d[next.next] > d[curr] + next.cost) {
+    				d[next.next] = d[curr] + next.cost;
+    				preCity[next.next] = curr;
+    				queue.add(new Node(next.next, d[next.next]));
+    			}
+    		}
+    	}
+    	
     }
 }
