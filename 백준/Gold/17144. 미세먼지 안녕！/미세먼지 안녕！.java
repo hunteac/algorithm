@@ -40,13 +40,12 @@ public class Main {
         	for (int r = 0; r < R; r++) {
         		for (int c = 0; c < C; c++) {
         			if (room[r][c] == -1 || room[r][c] == 0) continue;
-        			
         			spreadDust(clone, r, c);
         		}
         	}
         	
-        	cleanClockWise(r1, 1, -1); // 시계방향
-        	cleanAntiClockWise(r2, 1, -1); // 반시계방향
+        	clean(r1, 0); // 시계방향
+        	clean(r2, 0); // 반시계방향
         }
         
         int dust = 0;
@@ -73,37 +72,41 @@ public class Main {
 		}
     }
     
-    public static void cleanClockWise(int currR, int currC, int before) {
-    	if (room[currR][currC] == -1) return;
+    public static void clean(int currR, int currC) {
+    	int[] dirR;
+    	int[] dirC;
     	
-    	int dust = room[currR][currC];
+    	if (currR == r1) {
+    		dirR = new int[]{0, -1, 0, 1};
+    		dirC = new int[]{1, 0, -1, 0};
+    	} else {
+    		dirR = new int[]{0, 1, 0, -1};
+    		dirC = new int[]{1, 0, -1, 0};
+    	}
     	
-		if (before != -1) room[currR][currC] = before;
-		else room[currR][currC] = 0;
+    	int dir = 0;
+    	int before = 0;
     	
-		if (currR == 0 && currC == 0) cleanClockWise(currR + 1, currC, dust);
-		else if (currR == 0 && currC == C - 1) cleanClockWise(currR, currC - 1, dust);
-		else if (currR == r1 && currC == C - 1) cleanClockWise(currR - 1, currC, dust);
-		else if (currR == 0) cleanClockWise(currR, currC - 1, dust);
-		else if (currR == r1) cleanClockWise(currR, currC + 1, dust);
-		else if (currC == 0) cleanClockWise(currR + 1, currC, dust);
-		else if (currC == C - 1) cleanClockWise(currR - 1, currC, dust);
-    }
-    
-    public static void cleanAntiClockWise(int currR, int currC, int before) {
-    	if (room[currR][currC] == -1) return;
+    	int r = currR;
+    	int c = currC;
     	
-    	int dust = room[currR][currC];
-    	
-    	if (before != -1) room[currR][currC] = before;
-    	else room[currR][currC] = 0;
-    	
-		if (currR == r2 && currC == C - 1) cleanAntiClockWise(currR + 1, currC, dust);
-		else if (currR == R - 1 && currC == 0) cleanAntiClockWise(currR - 1, currC, dust);
-		else if (currR == R - 1 && currC == C - 1) cleanAntiClockWise(currR, currC - 1, dust);
-		else if (currR == r2) cleanAntiClockWise(currR, currC + 1, dust);
-		else if (currR == R - 1) cleanAntiClockWise(currR, currC - 1, dust);
-		else if (currC == 0) cleanAntiClockWise(currR - 1, currC, dust);
-		else if (currC == C - 1) cleanAntiClockWise(currR + 1, currC, dust);
+    	while (true) {
+    		int nr = r + dirR[dir];
+    		int nc = c + dirC[dir];
+    		
+    		if (nr < 0 || nr >= R || nc < 0 || nc >= C) {
+    			dir++;
+    			continue;
+    		}
+    		
+    		if (room[nr][nc] == -1) break;
+    		
+    		int tmp = room[nr][nc];
+    		room[nr][nc] = before;
+    		before = tmp;
+    		
+    		r = nr;
+    		c = nc;
+    	}
     }
 }
