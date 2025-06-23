@@ -23,9 +23,8 @@ public class Main {
 	}
 	
 	static ArrayList<ArrayList<Node>> graph;
-	static boolean[][] chk;
-	static int[][] dists;
-	static int N, E, v1, v2;
+	static long[][] dists;
+	static int N, E, v1, v2, max;
 	
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -33,14 +32,14 @@ public class Main {
         
         N = Integer.parseInt(st.nextToken());
         E = Integer.parseInt(st.nextToken());
+        max = 1000000000;
         
         graph = new ArrayList<>();
-        chk = new boolean[N + 1][N + 1];
-        dists = new int[N + 1][N + 1];
+        dists = new long[N + 1][N + 1];
         
         for (int i = 0; i <= N; i++) {
         	graph.add(new ArrayList<>());
-        	Arrays.fill(dists[i], Integer.MAX_VALUE);
+        	Arrays.fill(dists[i], max);
         }
         
         for (int i = 0; i < E; i++) {
@@ -63,17 +62,17 @@ public class Main {
         if (v1 != 1) dijkstra(v1);
         dijkstra(v2);
 
-        int min = Integer.MAX_VALUE;
+        long min = max;
         
-        if (chk[1][v1] && chk[v1][v2] && chk[v2][N]) {
+        if (dists[1][v1] + dists[v1][v2] + dists[v2][N] < max) {
         	min = dists[1][v1] + dists[v1][v2] + dists[v2][N];
         }
         
-        if (chk[1][v2] && chk[v2][v1] && chk[v1][N]) {
+        if (dists[1][v2] + dists[v2][v1] + dists[v1][N] < max) {
         	min = Math.min(min, dists[1][v2] + dists[v2][v1] + dists[v1][N]);
         }
         
-        if (min != Integer.MAX_VALUE) System.out.println(min);
+        if (min != max) System.out.println(min);
         else System.out.println(-1);
     }
     
@@ -82,7 +81,6 @@ public class Main {
     	pq.add(new Node(start, 0));
     	
     	dists[start][start] = 0;
-    	chk[start][start] = true;
     	
     	while (!pq.isEmpty()) {
     		Node node = pq.poll();
@@ -98,9 +96,7 @@ public class Main {
     			if (dists[start][to] > distSum) {
     				dists[start][to] = distSum;
     				dists[to][start] = distSum;
-    				chk[to][start] = true;
-    				chk[start][to] = true;
-    				pq.add(new Node(to, dists[start][to]));
+    				pq.add(new Node(to, (int) dists[start][to]));
     			}
     		}
     	}
