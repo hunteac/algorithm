@@ -1,24 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static class Curr implements Comparable<Curr> {
-        int cost;
-        int num;
-
-        Curr(int cost, int num) {
-            this.cost = cost;
-            this.num = num;
-        }
-
-        @Override
-        public int compareTo(Curr curr) {
-            return this.cost == curr.cost ? curr.num - this.num : this.cost - curr.cost;
-        }
-    }
+    static final int INF = 100001;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,38 +14,34 @@ public class Main {
         int C = Integer.parseInt(st.nextToken());
         int N = Integer.parseInt(st.nextToken());
 
-        PriorityQueue<Curr> pq = new PriorityQueue<>();
-        int[][] city = new int[N][2];
-        int[] max = new int[100001];
+        int[] costs = new int[N];
+        int[] cnts = new int[N];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
-            int cost = Integer.parseInt(st.nextToken()); // 비용
-            int num = Integer.parseInt(st.nextToken()); // 고객의 수
-
-            pq.add(new Curr(cost, num));
-            city[i][0] = cost;
-            city[i][1] = num;
+            costs[i] = Integer.parseInt(st.nextToken()); // 비용
+            cnts[i] = Integer.parseInt(st.nextToken()); // 고객의 수
         }
 
-        while (!pq.isEmpty()) {
-            Curr curr = pq.poll();
+        int[] dp = new int[2001];
+        Arrays.fill(dp, INF);
+        dp[0] = 0;
 
-            int cost = curr.cost;
-            int num = curr.num;
-
-            if (num >= C) {
-                System.out.println(cost);
-                return;
-            }
-
-            for (int i = 0; i < N; i++) {
-                if (num + city[i][1] > max[cost + city[i][0]]) {
-                    max[cost + city[i][0]] = num + city[i][1];
-                    pq.add(new Curr(cost + city[i][0], num + city[i][1]));
+        for (int i = 0; i < N; i++) {
+            for (int j = 1; j <= 2000; j++) {
+                if (j >= cnts[i]) {
+                    dp[j] = Math.min(dp[j], dp[j - cnts[i]] + costs[i]);
                 }
             }
         }
+
+        int result = INF;
+
+        for (int i = C; i <= 2000; i++) {
+            result = Math.min(result, dp[i]);
+        }
+
+        System.out.println(result);
     }
 }
