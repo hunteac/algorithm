@@ -8,24 +8,20 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
+        int[] dp = new int[N + 1];
+
         if (N == 1) {
             System.out.println(1);
             return;
         }
 
-        int[] cnt = new int[N + 1];
-        cnt[1] = 1;
-        cnt[2] = 2;
-
-        if (N == 2) {
-            System.out.println(2);
-            return;
-        }
+        dp[1] = 1;
+        dp[2] = 2;
 
         for (int i = 3; i <= N; i++) {
-            cnt[i] = (cnt[i - 1] + cnt[i - 2]) % 10007;
+            dp[i] = (dp[i - 1] + dp[i - 2]) % 10007;
         }
 
-        System.out.println(cnt[N]);
+        System.out.println(dp[N]);
     }
 }
