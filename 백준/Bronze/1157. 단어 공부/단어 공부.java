@@ -1,34 +1,36 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-    public static void main(String[] args) {
-    	Scanner sc = new Scanner(System.in);
-    	int[] arr = new int[26];
-    	String s = sc.next();
-    	int max = 0;
-    	int num = 0;
-    	int cnt = 0;
-    	
-    	for (int i = 0; i < s.length(); i++) {
-    		if ((int) s.charAt(i) > 96)
-    			arr[(int) s.charAt(i) - 97] += 1;
-    		else 
-    			arr[(int) s.charAt(i) - 65] += 1;
-    	}
-    	
-    	for (int i = 0; i < 26; i++) {
-    		if (arr[i] > max) {
-    			max = arr[i];
-    			num = i;
-    		}
-    	}
-    	
-    	for (int i = 0; i < 26; i++) {
-    		if (max == arr[i]) cnt++;
-    	}
-    	
-    	if (cnt > 1) System.out.println("?");
-    	else System.out.println((char) (num + 65));
-    	
-   	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String word = br.readLine().toLowerCase();
+
+        int[] cnts = new int[26];
+        int max = 0;
+        int maxIdx = 0;
+        String result = "";
+
+        for (int i = 0; i < word.length(); i++) {
+            int idx = word.charAt(i) - 'a';
+            cnts[idx]++;
+
+            if (cnts[idx] > max) {
+                max = cnts[idx];
+                maxIdx = idx;
+                result = word.substring(i, i + 1).toUpperCase();
+            }
+        }
+
+        for (int i = 0; i < 26; i++) {
+            if (i != maxIdx && cnts[i] == max) {
+                System.out.println("?");
+                return;
+            }
+        }
+
+        System.out.println(result);
+    }
 }
