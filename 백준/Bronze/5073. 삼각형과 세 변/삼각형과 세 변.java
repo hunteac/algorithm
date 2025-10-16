@@ -1,28 +1,53 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
-    	Scanner sc = new Scanner(System.in);
-    	
-    	while (true) {
-    		int[] arr = new int[3];
-    		
-    		for (int i = 0; i < 3; i++) { 
-    			arr[i] = sc.nextInt();
-    		}
-    		Arrays.sort(arr);
-    		if (arr[0] == 0 & arr[1] == 0 & arr[2] == 0) break;			
-    		
-    		if (arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == arr[2]) {
-    			System.out.println("Equilateral");
-    		} else if (arr[2] >= arr[0] + arr[1]) {
-    			System.out.println("Invalid");
-    		} else if (arr[0] == arr[1] || arr[1] == arr[2] || arr[0] == arr[2]) {
-    			System.out.println("Isosceles");
-    		} else System.out.println("Scalene");
-    	}
-    	sc.close();
-    		
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        StringTokenizer st;
+
+        while (true) {
+            st = new StringTokenizer(br.readLine());
+
+            int A = Integer.parseInt(st.nextToken());
+            int B = Integer.parseInt(st.nextToken());
+            int C = Integer.parseInt(st.nextToken());
+
+            if (A == 0 && B == 0 && C == 0) {
+                break;
+            }
+
+            if (checkTriangle(A, B, C)) {
+                if (A == B && B == C) {
+                    sb.append("Equilateral").append("\n");
+                } else if (A == B || B == C || A == C) {
+                    sb.append("Isosceles").append("\n");
+                } else {
+                    sb.append("Scalene").append("\n");
+                }
+            } else {
+                sb.append("Invalid").append("\n");
+            }
+        }
+
+        System.out.println(sb);
+    }
+
+    public static boolean checkTriangle(int A, int B, int C) {
+        int max = Math.max(A, B);
+        max = Math.max(max, C);
+
+        if (A == max && A < B + C) {
+            return true;
+        } else if (B == max && B < A + C) {
+            return true;
+        } else if (C == max && C < A + B) {
+            return true;
+        }
+
+        return false;
     }
 }
