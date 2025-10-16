@@ -26,12 +26,11 @@ public class Main {
             }
         }
 
-        if (idx1 < idx2) idx1++;
-
-        getCommand("1", idx2);
-        getCommand("4", idx2);
-        getCommand("1", idx1);
+        getCommand("3", idx1 - 1);
+        if (idx1 > 0) getCommand("1", 1);
         getCommand("4", idx1);
+        getCommand("1", idx2);
+        getCommand("4", idx2 - 1);
 
         System.out.println(command);
     }
