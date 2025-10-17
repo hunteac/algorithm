@@ -1,31 +1,28 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String str = br.readLine();
+        String word = br.readLine();
 
-        boolean zeroChk = false;
-        boolean oneChk = false;
-        int zeroCnt = 0;
-        int oneCnt = 0;
+        int zero = 0;
+        int one = 0;
+        char before = ' ';
+        char c;
 
-        for (int i = 0; i < str.length(); i++) {
-            char num = str.charAt(i);
+        for (int i = 0; i < word.length(); i++) {
+            c = word.charAt(i);
 
-            if (num == '0') {
-                if (!zeroChk) zeroCnt++;
-                zeroChk = true;
-                oneChk = false;
-            } else {
-                if (!oneChk) oneCnt++;
-                oneChk = true;
-                zeroChk = false;
+            if (before != c) {
+                if (c - '0' == 0) zero++;
+                else one++;
+                before = c;
             }
         }
 
-        System.out.println(Math.min(zeroCnt, oneCnt));
+        System.out.println(Math.min(zero, one));
     }
 }
