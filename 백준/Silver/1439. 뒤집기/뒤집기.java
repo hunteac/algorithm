@@ -1,25 +1,27 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String str = br.readLine();
+        String word = br.readLine();
 
-        char before = ' ';
         int zeroCnt = 0;
         int oneCnt = 0;
 
-        for (int i = 0; i < str.length(); i++) {
-            char curr = str.charAt(i);
+        char before = ' ';
 
-            if (before != curr) {
+        for (int i = 0; i < word.length(); i++) {
+            char curr = word.charAt(i);
+
+            if (curr != before) {
                 if (curr == '0') {
-                    oneCnt++;
-                } else {
                     zeroCnt++;
+                } else {
+                    oneCnt++;
                 }
             }
 
