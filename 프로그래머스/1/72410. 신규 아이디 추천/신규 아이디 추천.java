@@ -1,58 +1,86 @@
-class Solution {
-    public String solution(String new_id) {
-        String tmp = "";
-        int cnt = 0; // 마침표 개수
-        
-        // 1, 2단계
-        for (int idx = 0; idx < new_id.length(); idx++) {
-            if (new_id.charAt(idx) >= 65 && new_id.charAt(idx) <= 90) { // 1단계
-                tmp += Character.toLowerCase(new_id.charAt(idx));
-            } else if ((new_id.charAt(idx) >= 97 && new_id.charAt(idx) <= 122) || (new_id.charAt(idx) >= 48 && new_id.charAt(idx) <= 57)) { // 2단계 (소문자, 숫자)
-                tmp += new_id.charAt(idx);
-            } else if (new_id.charAt(idx) == '-' || new_id.charAt(idx) == '_' || new_id.charAt(idx) == '.') { // 2단계 ('-', '_', '.')
-                tmp += new_id.charAt(idx);
-            }
-        }
-        
-        new_id = tmp;
-        tmp = "";
+import java.util.*;
 
+class Solution {
+    public String first(String id) {
+        return id.toLowerCase();
+    }
+    
+    public String second(String id) {
+        for (int i = 0; i < id.length(); i++) {
+            char c = id.charAt(i);
+            
+            if ((c >= 'a' && c <= 'z')
+                || (c >= 48 && c <= 57)
+                || c == '-'
+                || c == '_'
+                || c == '.') {
+                continue;
+            }
+            
+            id = id.substring(0, i) + id.substring(i + 1);
+            
+            i--;
+        }
+        
+        return id;
+    }
+    
+    public String third(String id) {
+        while (id.contains("..")) {
+            id = id.replace("..", ".");
+        }
+        
+        return id;
+    }
+    
+    public String fourth(String id) {
+        while (id.startsWith(".")) {
+            id = id.substring(1);
+        }
+        while (id.endsWith(".")) {
+            id = id.substring(0, id.length() - 1);
+        }
+        return id;
+    }
+    
+    public String fifth(String id) {
+        if ("".equals(id)) {
+            id = "a";
+        }
+        return id;
+    }
+    
+    public String sixth(String id) {
+        if (id.length() > 15) {
+            id = id.substring(0, 15);
+        }
+        return id;
+    }
+    
+    public String seventh(String id) {
+        while (id.length() < 3) {
+            id += id.charAt(id.length() - 1);
+        }
+        return id;
+    }
+    
+    public String solution(String new_id) {
+        // 1단계
+        new_id = first(new_id);
+        // 2단계
+        new_id = second(new_id);
         // 3단계
-        for (int idx = 0; idx < new_id.length(); idx++) {
-            if (idx < new_id.length() - 1 && new_id.charAt(idx) == '.' && new_id.charAt(idx + 1) == '.') continue;
-            tmp += new_id.charAt(idx);
-        }
-        
-        new_id = tmp;
-        tmp = "";
-        
+        new_id = third(new_id);
         // 4단계
-        for (int idx = 0; idx < new_id.length(); idx++) {
-            if ((idx == 0 || idx == new_id.length() - 1) && new_id.charAt(idx) == '.') continue;
-            tmp += new_id.charAt(idx);
-        }        
-        
-        new_id = tmp;
-        
+        new_id = fourth(new_id);
         // 5단계
-        if (new_id.equals("")) new_id += "a";
-        
+        new_id = fifth(new_id);
         // 6단계
-        if (new_id.length() > 15) {
-            tmp = "";
-            for(int idx = 0; idx < 15; idx++) {
-                if (idx == 14 && new_id.charAt(idx) == '.') continue; // 마지막 마침표 제거
-                tmp += new_id.charAt(idx);
-            }
-            new_id = tmp;
-        }
-        
+        new_id = sixth(new_id);
+        // 4단계 추가
+        new_id = fourth(new_id);
         // 7단계
-        if (new_id.length() < 3) {
-            while (new_id.length() < 3) {
-                new_id += new_id.charAt(new_id.length() - 1);
-            }
-        }
+        new_id = seventh(new_id);
         
         return new_id;
     }
