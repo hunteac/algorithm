@@ -1,64 +1,72 @@
-import java.util.*;
-
 class Solution {
+    class Pos {
+        int row;
+        int col;
+        
+        Pos (int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+        
+        public String getHand(String hand) {
+            String result = "left".equals(hand) ? "L" : "R";
+            
+            int leftDist = getDist(left);
+            int rightDist = getDist(right);
+            
+            System.out.println("leftDist: " + leftDist);
+            System.out.println("rightDist: " + rightDist);
+            
+            if (leftDist < rightDist) {
+                result = "L";
+            } else if (rightDist < leftDist) {
+                result = "R";
+            }
+            
+            return result;
+        }
+        
+        public int getDist(Pos pos) {
+            return Math.abs(this.row - pos.row) + Math.abs(this.col - pos.col);
+        }
+    }
+    
+    Pos left;
+    Pos right;
+    
     public String solution(int[] numbers, String hand) {
         String answer = "";
         
-        int[] right = new int[] {3, 2}; // 오른손 엄지 위치
-        int[] left = new int[] {3, 0}; // 왼손 엄지 위치
+        // 1. 손 위치 초기화
+        left = new Pos(3, 0);
+        right = new Pos(3, 2);
         
-        int[][] keypad = new int[10][2];
-        keypad[0][0] = 3;
-        keypad[0][1] = 1;
-        
-        int idx = 1;
-        
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                keypad[idx][0] = i;
-                keypad[idx][1] = j;
-                idx++;
+        // 2. 숫자 조회
+        for (int i = 0; i < numbers.length; i++) {
+            int number = numbers[i];
+            
+            Pos numPos = new Pos((number - 1) / 3, (number - 1) % 3);
+            if (number == 0) {
+                numPos = new Pos(3, 1);
+            }
+            
+            // 3. 손 선택 (col == 0 : 왼손, col == 2 : 오른손, col == 1 거리 계산)
+            if (numPos.col == 0) {
+                answer += "L";
+            } else if (numPos.col == 2) {
+                answer += "R";
+            } else {
+                answer += numPos.getHand(hand);
+            }
+            
+            // 4. 손 위치 변경
+            if ('L' == answer.charAt(i)) {
+                left = new Pos(numPos.row, numPos.col);
+            } else {
+                right = new Pos(numPos.row, numPos.col);
             }
         }
         
-        for (int i = 0; i < numbers.length; i++) { // 1, 4, 7: 왼손
-            int num = numbers[i];
-            if (num == 1 || num == 4 || num == 7) {
-                answer += "L";
-                left[0] = keypad[num][0]; // 왼손 위치 옮기기
-                left[1] = keypad[num][1];
-            } else if (num == 3 || num == 6 || num == 9) { // 3, 6, 9: 오른손
-                answer += "R";
-                right[0] = keypad[num][0]; // 오른손 위치 옮기기
-                right[1] = keypad[num][1];
-            } else { // 2, 5, 8, 0: 거리 측정
-                // 오른손 거리
-                int rdist = Math.abs(keypad[num][0] - right[0]) + Math.abs(keypad[num][1] - right[1]);
-                // 왼손 거리
-                int ldist = Math.abs(keypad[num][0] - left[0]) + Math.abs(keypad[num][1] - left[1]);
-                
-                if (ldist > rdist) { // 왼손이 더 먼 경우
-                    answer += "R";
-                    right[0] = keypad[num][0];
-                    right[1] = keypad[num][1];
-                } else if (rdist > ldist) { // 오른손이 더 먼 경우
-                    answer += "L";   
-                    left[0] = keypad[num][0];
-                    left[1] = keypad[num][1];
-                } else { // 거리가 같은 경우
-                    if (hand.equals("right")) { // 오른손잡이
-                        answer += "R";
-                        right[0] = keypad[num][0];
-                        right[1] = keypad[num][1];
-                    } else { // 왼손잡이
-                        answer += "L";   
-                        left[0] = keypad[num][0];
-                        left[1] = keypad[num][1];
-                    }
-                } 
-            }   
-        }
-            
         return answer;
     }
 }
